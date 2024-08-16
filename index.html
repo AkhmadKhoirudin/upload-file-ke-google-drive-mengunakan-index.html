@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <base target="_top">
+</head>
+<body>
+  <form id="uploadForm">
+    <input type="file" id="file" name="file"><br><br>
+    <input type="button" value="Upload" onclick="uploadFile()">
+  </form>
+  <div id="output"></div>
+  <script>
+    function uploadFile() {
+      var file = document.getElementById('file').files[0];
+      var reader = new FileReader();
+      reader.onloadend = function(e) {
+        google.script.run.withSuccessHandler(function(msg) {
+          document.getElementById('output').innerHTML = msg;
+        }).uploadFile(e.target.result, file.name);
+      };
+      reader.readAsDataURL(file);
+    }
+  </script>
+</body>
+</html>
